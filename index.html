@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Connected Hearts</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            background: #12100e;
+            color: #f4eee5;
+            min-height: 100vh;
+        }
+
+
+        button {
+            font-family: inherit;
+        }
+
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+        }
+
+
+        .screen {
+            width: 100%;
+            max-width: 520px;
+            min-height: 85vh;
+
+            display: none;
+
+            flex-direction: column;
+            justify-content: center;
+
+            animation: appear 0.7s ease;
+        }
+
+
+        .screen.active {
+            display: flex;
+        }
+
+
+        @keyframes appear {
+
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        .progress {
+            position: fixed;
+
+            top: 18px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            color: #756b5e;
+
+            font-size: 11px;
+
+            letter-spacing: 2px;
+
+            z-index: 10;
+        }
+
+
+        .small-text {
+            color: #b8a993;
+
+            font-size: 13px;
+
+            letter-spacing: 3px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 18px;
+        }
+
+
+        .logo {
+            font-size: 47px;
+
+            letter-spacing: 5px;
+
+            color: #d6b477;
+
+            line-height: 1.1;
+
+            margin-bottom: 15px;
+        }
+
+
+        .subtitle {
+            font-size: 21px;
+
+            line-height: 1.6;
+
+            color: #e8dfd3;
+        }
+
+
+        .intro {
+            color: #a99b8a;
+
+            line-height: 1.9;
+
+            margin-top: 28px;
+
+            font-size: 16px;
+        }
+
+
+        .button-area {
+            margin-top: 35px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+        }
+
+
+        .btn {
+            width: 100%;
+
+            border: 1px solid #63513d;
+
+            background: transparent;
+
+            color: #eee5d9;
+
+            padding: 16px 20px;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .btn:hover {
+            background: #282019;
+
+            border-color: #c5a568;
+
+            transform: translateY(-2px);
+        }
+
+
+        .btn.main {
+            background: #b39155;
+
+            color: #17120e;
+
+            border-color: #b39155;
+
+            font-weight: bold;
+        }
+
+
+        .btn.main:hover {
+            background: #d0b174;
+        }
+
+
+        .chapter {
+            color: #b9975c;
+
+            font-size: 12px;
+
+            letter-spacing: 3px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 18px;
+        }
+
+
+        .question {
+            font-size: 31px;
+
+            line-height: 1.35;
+
+            margin-bottom: 22px;
+        }
+
+
+        .story {
+            color: #c5b9aa;
+
+            font-size: 17px;
+
+            line-height: 1.9;
+        }
+
+
+        .highlight {
+            color: #e0c083;
+        }
+
+
+        .reveal {
+            display: none;
+
+            margin-top: 25px;
+
+            padding: 22px;
+
+            background: #1d1814;
+
+            border-left: 2px solid #b9975c;
+
+            border-radius: 5px;
+
+            color: #d8cdbd;
+
+            line-height: 1.85;
+
+            animation: appear 0.6s ease;
+        }
+
+
+        .reveal.show {
+            display: block;
+        }
+
+
+        .memory-card {
+            margin-top: 22px;
+
+            padding: 23px;
+
+            background: #1a1512;
+
+            border: 1px solid #32281f;
+
+            border-radius: 12px;
+        }
+
+
+        .memory-date {
+            color: #b9975c;
+
+            font-size: 11px;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .memory-title {
+            font-size: 23px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .memory-text {
+            color: #b9ad9e;
+
+            line-height: 1.8;
+        }
+
+
+        /* TIMELINE */
+
+        .timeline {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin: 35px 0;
+
+            position: relative;
+        }
+
+
+        .timeline::before {
+            content: "";
+
+            position: absolute;
+
+            top: 50%;
+
+            left: 5%;
+
+            right: 5%;
+
+            height: 1px;
+
+            background: #493b2e;
+        }
+
+
+        .year {
+            position: relative;
+
+            z-index: 1;
+
+            width: 45px;
+
+            height: 45px;
+
+            border-radius: 50%;
+
+            background: #191512;
+
+            border: 1px solid #796344;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 10px;
+
+            color: #c7ae7b;
+        }
+
+
+        /* PHONE */
+
+        .phone {
+            margin-top: 28px;
+
+            background: #171311;
+
+            border: 1px solid #44362a;
+
+            border-radius: 20px;
+
+            padding: 23px;
+        }
+
+
+        .phone-top {
+            display: flex;
+
+            justify-content: space-between;
+
+            color: #7d7164;
+
+            font-size: 12px;
+
+            margin-bottom: 35px;
+        }
+
+
+        .call-name {
+            text-align: center;
+
+            font-size: 27px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .call-status {
+            text-align: center;
+
+            color: #aa9b89;
+
+            font-size: 14px;
+        }
+
+
+        .call-button {
+            display: block;
+
+            margin: 30px auto 5px;
+
+            width: 68px;
+
+            height: 68px;
+
+            border-radius: 50%;
+
+            border: none;
+
+            background: #756044;
+
+            color: white;
+
+            font-size: 25px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .call-button:hover {
+            transform: scale(1.08);
+        }
+
+
+        /* FACEBOOK */
+
+        .facebook-card {
+            margin-top: 28px;
+
+            background: #1a1613;
+
+            border: 1px solid #393027;
+
+            border-radius: 12px;
+
+            padding: 22px;
+        }
+
+
+        .search-line {
+            color: #817669;
+
+            font-size: 12px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .profile-name {
+            font-size: 23px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .profile-status {
+            color: #998c7c;
+
+            font-size: 13px;
+        }
+
+
+        .request {
+            margin-top: 20px;
+
+            padding: 12px;
+
+            text-align: center;
+
+            border: 1px solid #5a4b39;
+
+            color: #c7b185;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+        }
+
+
+        /* VAGUS NIGHT */
+
+        .night {
+            text-align: center;
+        }
+
+
+        .night-title {
+            font-size: 42px;
+
+            color: #d8b876;
+
+            letter-spacing: 4px;
+
+            margin-bottom: 22px;
+        }
+
+
+        .night-text {
+            font-size: 18px;
+
+            line-height: 1.9;
+
+            color: #c9bdae;
+        }
+
+
+        .quote {
+            margin-top: 30px;
+
+            font-size: 21px;
+
+            line-height: 1.7;
+
+            color: #eee3d4;
+
+            font-style: italic;
+        }
+
+
+        /* FINAL */
+
+        .final {
+            text-align: center;
+        }
+
+
+        .final-title {
+            font-size: 40px;
+
+            line-height: 1.25;
+
+            color: #d9b977;
+
+            margin-bottom: 25px;
+        }
+
+
+        .final-question {
+            font-size: 28px;
+
+            line-height: 1.5;
+
+            color: #eee4d7;
+
+            margin-top: 25px;
+        }
+
+
+        .signature {
+            margin-top: 35px;
+
+            color: #a29381;
+
+            font-size: 15px;
+        }
+
+
+        .ending {
+            margin-top: 25px;
+
+            font-size: 14px;
+
+            letter-spacing: 3px;
+
+            color: #806f59;
+
+        }
+
+
+        @media (max-width: 400px) {
+
+            .logo {
+                font-size: 38px;
+            }
+
+
+            .question {
+                font-size: 27px;
+            }
+
+
+            .night-title {
+                font-size: 32px;
+            }
+
+
+            .final-title {
+                font-size: 34px;
+            }
+
+
+            .final-question {
+                font-size: 24px;
+            }
+
+
+            .page {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- PROGRESS -->
+
+    <div class="progress" id="progress">
+        01 / 10
+    </div>
+
+
+    <main class="page">
+
+
+        <!-- ================================= -->
+        <!-- SCREEN 1 : OPENING -->
+        <!-- ================================= -->
+
+        <section class="screen active" id="screen1">
+
+            <div class="small-text">
+                For Sebabatso
+            </div>
+
+
+            <h1 class="logo">
+                CONNECTED<br>HEARTS
+            </h1>
+
+
+            <p class="subtitle">
+                The story we never finished.
+            </p>
+
+
+            <p class="intro">
+
+                Hey Sebabatso...
+
+                <br><br>
+
+                You probably weren't expecting me to make
+                an entire website for you.
+
+                <br><br>
+
+                But after everything that happened,
+                I felt like a normal message wasn't enough.
+
+            </p>
+
+
+            <div class="button-area">
+
+                <button class="btn main" onclick="nextScreen()">
+                    Come in
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================= -->
+        <!-- SCREEN 2 : DON BOSCO -->
+        <!-- ================================= -->
+
+        <section class="screen" id="screen2">
+
+            <div class="chapter">
+                Chapter 01 · Where it started
+            </div>
+
+
+            <h2 class="question">
+                Sebabatso... do you remember Don Bosco?
+            </h2>
+
+
+            <p class="story">
+
+                September 2022.
+
+                <br><br>
+
+                We were at the sports day watching the girls
+                play football.
+
+                <br><br>
+
+                Our girls scored and everyone ran to the corner
+                to celebrate.
+
+                <br><br>
+
+                And then you started walking back.
+
+            </p>
+
+
+            <div class="button-area">
+
+                <button class="btn" onclick="showReveal('donBosco')">
+                    I remember...
+                </button>
+
+            </div>
+
+
+            <div class="reveal" id="donBosco">
+
+                I still don't know what made me talk to you that day.
+
+                <br><br>
+
+                I wasn't planning some big moment.
+
+                <br><br>
+
+                I just saw you...
+
+                <br><br>
+
+                and somehow I found myself talking to you.
+
+                <br><br>
+
+                Funny how something so random can become
+                something you remember years later.
+
+            </div>
+
+
+            <div class="button-area">
+
+                <button class="btn main" onclick="nextScreen()">
+                    There's something else
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================= -->
+        <!-- SCREEN 3 : FIRST KISS -->
+        <!-- ================================= -->
+
+        <section class="screen" id="screen3">
+
+            <div class="chapter">
+                Chapter 02 · Something you didn't know
+            </div>
+
+
+            <h2 class="question">
+                I don't think I ever told you this.
+            </h2>
+
+
+            <p class="story">
+
+                Before our first kiss...
+
+                <br><br>
+
+                I had actually planned something.
+
+                <br><br>
+
+                Not anything complicated.
+
+                I just had something I wanted to ask you.
+
+            </p>
+
+
+            <div class="button-area">
+
+                <button class="btn main" onclick="showReveal('kiss')">
+                    What were you planning?
+                </button>
+
+            </div>
+
+
+            <div class="reveal" id="kiss">
+
+                I was going to ask you to teach me how to kiss.
+
+                <br><br>
+
+                I had it all in my head.
+
+                After a hug, I would somehow find the courage
+                to ask you.
+
+                <br><br>
+
+                But you never gave me the chance.
+
+                <br><br>
+
+                You kissed me before I could even ask.
+
+                <br><br>
+
+                And honestly...
+
+                <br><br>
+
+                <span class="highlight">
+                    I think you already knew what I wanted.
+                </span>
+
+            </div>
+
+
+            <div class="button-area">
+
+                <button class="btn main" onclick="nextScreen()">
+                    Keep going
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================= -->
+        <!-- SCREEN 4 : WALKS HOME -->
+        <!-- ================================= -->
+
+        <section class="screen" id="screen4">
+
+            <div class="chapter">
+                Chapter 03 · Our little routine
+            </div>
+
+
+            <h2 class="question">
+                Then the walks home became our thing.
+            </h2>
+
+
+            <p class="story">
+
+                School ended at 16:30.
+
+                <br><br>
+
+                Somehow, I could turn the walk home into
+                something that lasted much longer than it should.
+
+                <br><br>
+
+                We would walk.
+
+                Talk.
+
+                Laugh.
+
+                <br><br>
+
+                And before we went our separate ways,
+                we had our own little goodbye.
+
+            </p>
+
+
+            <div class="memory-card">
+
+                <div class="memory-date">
+                    THE PART MY PARENTS DIDN'T LIKE
+                </div>
+
+
+                <div class="memory-title">
+                    21:00 — 21:30
+                </div>
+
+
+                <p class="memory-text">
+
+                    That was usually when I finally arrived home.
+
+                    <br><br>
+
+                    My parents would ask where I had been.
+
+                    <br><br>
+
+                    And somehow "I was at school reading"
+                    became my favourite answer.
+
+                </p>
+
+            </div>
+
+
+            <div class="button-area">
+
+                <button class="btn main" onclick="nextScreen()">
+                    But then you would call...
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================= -->
+        <!-- SCREEN 5 : PHONE CALL -->
+        <!-- ================================= -->
+
+        <section class="screen" id="screen5">
+
+            <div class="chapter">
+                Chapter 04 · Your calls
+            </div>
+
+
+            <div class="phone">
+
+                <div class="phone-top">
+
+                    <span>
+                        21:17
+                    </span>
+
+
+                    <span>
+                        Incoming call
+                    </span>
+
+                </div>
+
+
+                <div class="call-name">
+                    Sebabatso
+                </div>
+
+
+                <div class="call-status">
+                    calling...
+                </div>
+
+
+                <button class="call-button" onclick="answerCall()">
+                    ☎
+                </button>
+
+            </div>
+
+
+            <div class="reveal" id="callReveal">
+
+                I still remember how your calls could change
+                the whole mood of my night.
+
+                <br><br>
+
+                I could have just been shouted at for coming
+                home late...
+
+                <br><br>
+
+                then your call would come in.
+
+                <br><br>
+
+                And suddenly everything felt normal.
+
+                <br><br>
+
+                <span class="highlight">
+                    You somehow knew how to make things feel okay.
+                </span>
+
+            </div>
+
+
+            <div class="button-area">
+
+                <button class="btn main" onclick="nextScreen()">
+                    Then things changed...
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================= -->
+        <!-- SCREEN 6 : YEARS APART -->
+        <!-- ================================= -->
+
+        <section class="screen" id="screen6">
+
+            <div class="chapter">
+                Chapter 05 · The years between us
+            </div>
+
+
+            <h2 class="question">
+                And then somehow... we lost each other.
+            </h2>
+
+
+            <div class="timeline">
+
+                <div class="year">
+                    2022
+                </div>
+
+                <div class="year">
+                    2023
+                </div>
+
+                <div class="year">
+                    2024
+                </div>
+
+                <div class="year">
+                    2025
+                </div>
+
+                <div class="year">
+                    2026
+                </div>
+
+            </div>
+
+
+            <p class="story">
+
+                Around February 2023, things weren't the same anymore.
+
+                <br><br>
+
+                We didn't see each other as much.
+
+                <br><br>
+
+                Then eventually...
+
+                we stopped hearing from each other completely.
+
+                <br><br>
+
+                I honestly can't even tell you who stopped
+                talking first.
+
+                <br><br>
+
+                I just know that suddenly,
+                there were years between us.
+
+            </p>
+
+
+            <div class="button-area">
+
+                <button class="btn main" onclick="nextScreen()">
+                    But I never forgot you
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================= -->
+        <!-- SCREEN 7 : FINDING HER -->
+        <!-- ================================= -->
+
+        <section class="screen" id="screen7">
+
+            <div class="chapter">
+                Chapter 06 · Finding you again
+            </div>
+
+
+            <h2 class="question">
+                I actually looked for you.
+            </h2>
+
+
+            <p class="story">
+
+                You crossed my mind more times than I can count.
+
+                <br><br>
+
+                And this month, I finally decided
+                to stop wondering and actually look.
+
+                <br><br>
+
+                I asked your friend for your Facebook username.
+
+                <br><br>
+
+                Then I sent the request.
+
+            </p>
+
+
+            <div class="facebook-card">
+
+                <div class="search-line">
+                    SEARCH RESULT
+                </div>
+
+
+                <div class="profile-name">
+                    Sebabatso
+                </div>
+
+
+                <div class="profile-status">
+                    Friend request sent
+                </div>
+
+
+                <div class="request">
+                    REQUEST SENT ✓
+                </div>
+
+            </div>
+
+
+            <div class="reveal show">
+
+                And there you were.
+
+                <br><br>
+
+                After all those years...
+
+                <br><br>
+
+                <span class="highlight">
+                    I finally found you.
+                </span>
+
+            </div>
+
+
+            <div class="button-area">
+
+                <button class="btn main" onclick="nextScreen()">
+                    And then we talked again
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================= -->
+        <!-- SCREEN 8 : WHAT HAPPENED -->
+        <!-- ================================= -->
+
+        <section class="screen" id="screen8">
+
+            <div class="chapter">
+                Chapter 07 · The things we didn't know
+            </div>
+
+
+            <h2 class="question">
+                There was a lot I didn't understand back then.
+            </h2>
+
+
+            <p class="story">
+
+                When we found each other again,
+                I learned that life hadn't exactly been simple
+                for you either.
+
+                <br><br>
+
+                There were things happening in your life
+                that I didn't know about.
+
+                <br><br>
+
+                Things you were scared would hurt me.
+
+                <br><br>
+
+                And maybe disappearing felt like the safest
+                way to protect me from something
+                you thought would break my heart.
+
+            </p>
+
+
+            <div class="reveal show">
+
+                I don't want to spend this story blaming either
+                of us for what happened.
+
+                <br><br>
+
+                We were young.
+
+                Life changed.
+
+                We lost touch.
+
+                <br><br>
+
+                But somehow...
+
+                <br><br>
+
+                <span class="highlight">
+                    we found our way back.
+                </span>
+
+            </div>
+
+
+            <div class="button-area">
+
+                <button class="btn main" onclick="nextScreen()">
+                    And then I saw you again
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================= -->
+        <!-- SCREEN 9 : VAGUS NIGHT -->
+        <!-- ================================= -->
+
+        <section class="screen" id="screen9">
+
+            <div class="night">
+
+                <div class="chapter">
+                    Chapter 08 · Roma
+                </div>
+
+
+                <h2 class="night-title">
+                    VAGUS NIGHT
+                </h2>
+
+
+                <p class="night-text">
+
+                    After everything...
+
+                    <br><br>
+
+                    I finally came to see you in Roma.
+
+                    <br><br>
+
+                    And I remember thinking how strange it was.
+
+                    <br><br>
+
+                    Years had passed.
+
+                    So much had happened.
+
+                    We had both changed.
+
+                    <br><br>
+
+                    Yet somehow, being there with you again
+                    didn't feel like meeting a stranger.
+
+                </p>
+
+
+                <p class="quote">
+
+                    "Everything just fell back into its normal place.
+                    Like somehow, our hearts remembered."
+
+                </p>
+
+
+                <div class="button-area">
+
+                    <button class="btn main" onclick="nextScreen()">
+                        Before you leave...
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================= -->
+        <!-- SCREEN 10 : FINAL QUESTION -->
+        <!-- ================================= -->
+
+        <section class="screen" id="screen10">
+
+            <div class="final">
+
+                <div class="chapter">
+                    Chapter 09 · One last question
+                </div>
+
+
+                <h2 class="final-title">
+                    Sebabatso...
+                </h2>
+
+
+                <p class="story">
+
+                    We've already lived one part of this story.
+
+                    <br><br>
+
+                    We met.
+
+                    Lost each other.
+
+                    Grew.
+
+                    Changed.
+
+                    And somehow found each other again.
+
+                </p>
+
+
+                <h3 class="final-question">
+                    Do you really think this is where
+                    our story ends?
+                </h3>
+
+
+                <div class="button-area">
+
+                    <button class="btn" onclick="finishStory()">
+                        No.
+                    </button>
+
+
+                    <button class="btn main" onclick="finishStory()">
+                        Not even close.
+                    </button>
+
+                </div>
+
+
+                <div class="reveal" id="ending">
+
+                    I was hoping you'd say that.
+
+                    <br><br>
+
+                    Because honestly...
+
+                    I don't think we're finished either.
+
+                    <br><br>
+
+                    I don't know exactly what comes next.
+
+                    And I don't think we need to know everything
+                    right now.
+
+                    <br><br>
+
+                    I just know that after all those years,
+                    after everything that happened...
+
+                    <br><br>
+
+                    <span class="highlight">
+                        I found you again.
+                    </span>
+
+                    <br><br>
+
+                    And now that we're here,
+                    I want to see where this story goes.
+
+                    <br><br>
+
+                    Maybe the first part of our story
+                    already happened.
+
+                    <br><br>
+
+                    Maybe this...
+
+                    <br><br>
+
+                    <span class="highlight">
+                        is where the next part begins.
+                    </span>
+
+                    <br><br>
+
+                    <strong>
+                        CONNECTED HEARTS
+                    </strong>
+
+                    <br><br>
+
+                    <span class="ending">
+                        I HAVE ALWAYS LOVED YOU
+                    </span>
+
+                    <div class="signature">
+                        — Seisa
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ================================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ================================= -->
+
+    <script>
+
+
+        /* Current page */
+
+        let currentScreen = 1;
+
+
+        /* Total number of pages */
+
+        const totalScreens = 10;
+
+
+
+        /* ---------------------------------
+           UPDATE THE PAGE NUMBER
+        --------------------------------- */
+
+        function updateProgress() {
+
+            let number = currentScreen
+                .toString()
+                .padStart(2, "0");
+
+
+            document.getElementById("progress").textContent =
+                number + " / " + totalScreens;
+
+        }
+
+
+
+        /* ---------------------------------
+           MOVE TO THE NEXT SCREEN
+        --------------------------------- */
+
+        function nextScreen() {
+
+            /* Hide the current screen */
+
+            document
+                .getElementById("screen" + currentScreen)
+                .classList.remove("active");
+
+
+            /* Move to the next screen */
+
+            currentScreen++;
+
+
+            /* Show the next screen */
+
+            document
+                .getElementById("screen" + currentScreen)
+                .classList.add("active");
+
+
+            /* Update the number at the top */
+
+            updateProgress();
+
+
+            /* Move the phone back to the top */
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+
+
+
+        /* ---------------------------------
+           SHOW HIDDEN MEMORY
+        --------------------------------- */
+
+        function showReveal(id) {
+
+            document
+                .getElementById(id)
+                .classList.add("show");
+
+        }
+
+
+
+        /* ---------------------------------
+           ANSWER THE PHONE
+        --------------------------------- */
+
+        function answerCall() {
+
+            document
+                .getElementById("callReveal")
+                .classList.add("show");
+
+        }
+
+
+
+        /* ---------------------------------
+           SHOW FINAL MESSAGE
+        --------------------------------- */
+
+        function finishStory() {
+
+            document
+                .getElementById("ending")
+                .classList.add("show");
+
+        }
+
+
+
+        /* Start the page counter */
+
+        updateProgress();
+
+
+    </script>
+
+
+</body>
+
+</html>
